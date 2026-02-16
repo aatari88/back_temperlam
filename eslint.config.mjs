@@ -1,16 +1,21 @@
-// @ts-check
+// eslint.config.mjs
+
 import eslint from '@eslint/js';
+import tseslint from 'typescript-eslint';
 import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
 import globals from 'globals';
-import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
   {
-    ignores: ['eslint.config.mjs'],
+    ignores: ['dist', 'node_modules'],
   },
+
   eslint.configs.recommended,
+
   ...tseslint.configs.recommendedTypeChecked,
+
   eslintPluginPrettierRecommended,
+
   {
     languageOptions: {
       globals: {
@@ -19,17 +24,39 @@ export default tseslint.config(
       },
       sourceType: 'commonjs',
       parserOptions: {
-        projectService: true,
-        tsconfigRootDir: import.meta.dirname,
+        project: ['./tsconfig.json'], // 🔥 mejor que projectService
+        tsconfigRootDir: process.cwd(),
       },
     },
   },
+
   {
     rules: {
+      /**
+       * 🔥 Backend-friendly rules
+       */
       '@typescript-eslint/no-explicit-any': 'off',
+
+      // En backend esto molesta mucho con Prisma
+      '@typescript-eslint/no-unsafe-assignment': 'off',
+      '@typescript-eslint/no-unsafe-member-access': 'off',
+      '@typescript-eslint/no-unsafe-call': 'off',
+
       '@typescript-eslint/no-floating-promises': 'warn',
-      '@typescript-eslint/no-unsafe-argument': 'warn',
-      "prettier/prettier": ["error", { endOfLine: "auto" }],
+
+      /**
+       * 🧹 Clean code realista
+       */
+      '@typescript-eslint/consistent-type-imports': 'warn',
+      '@typescript-eslint/no-unused-vars': [
+        'warn',
+        { argsIgnorePattern: '^_' },
+      ],
+
+      /**
+       * 🎨 Prettier
+       */
+      'prettier/prettier': ['error', { endOfLine: 'auto' }],
     },
   },
 );
