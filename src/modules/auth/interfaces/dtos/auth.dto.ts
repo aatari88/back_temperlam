@@ -1,11 +1,31 @@
+import { IsString, IsNotEmpty, IsOptional, IsEmail } from 'class-validator';
+
 export class LoginRequestDto {
-  email: string;
+  @IsString()
+  @IsNotEmpty()
+  username: string;
+
+  @IsString()
+  @IsNotEmpty()
   password: string;
 }
 
 export class RegisterRequestDto {
-  email: string;
+  @IsString()
+  @IsNotEmpty()
+  username: string;
+
+  @IsEmail()
+  @IsOptional()
+  email?: string;
+
+  @IsString()
+  @IsNotEmpty()
   password: string;
+
+  @IsString()
+  @IsNotEmpty()
+  fullName: string;
 }
 
 export class RefreshTokenRequestDto {
@@ -18,13 +38,18 @@ export class LoginResponseDto {
   refreshToken: string;
   user: {
     id: string;
-    email: string;
+    username: string;
+    email?: string;
   };
 }
 
 export class RegisterResponseDto {
   id: string;
-  email: string;
+  username: string;
+  email?: string;
+  fullName: string;
+  isActive: boolean;
+  roles: string[];
   createdAt: Date;
 }
 

@@ -18,23 +18,23 @@ export class RegisterUseCase {
     private readonly userRepository: IUserRepository,
   ) {}
 
-  async execute(email: string, password: string): Promise<User> {
+  async execute(username: string, password: string, fullName: string, email?: string): Promise<User> {
     // Step 1: Validate input (basic validation)
-    if (!email || !password) {
-      throw new BadRequestException('Email and password are required');
+    if (!username || !password || !fullName) {
+      throw new BadRequestException('Username, password, and fullName are required');
     }
 
     // Step 2: Check if user already exists via repository
-    const existingUser = await this.userRepository.findByEmail(email);
+    const existingUser = await this.userRepository.findByUsername(username);
     if (existingUser) {
-      throw new BadRequestException('User with this email already exists');
+      throw new BadRequestException('User with this username already exists');
     }
 
     // Step 3: Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Step 4: Create user via repository
-    const user = await this.userRepository.create(email, hashedPassword);
+    const user = await this.userRepository.create(email, hashedPassword, fullName, username);
 
     // Step 5: Return domain entity (NO DTO)
     return user;

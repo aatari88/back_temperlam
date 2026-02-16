@@ -7,12 +7,28 @@ datasource db {
   provider = "postgresql"
 }
 
+enum UserRole {
+  ADMIN
+  PRODUCTION_MANAGER
+  OPERATOR
+  INVENTORY_CLERK
+  BILLING_VIEWER // Preparado para el futuro
+
+  @@map("user_role")
+}
+
 model User {
-  id           String   @id
-  email        String   @unique
-  password     String
-  refreshToken String?
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime
+  id           String     @id @default(uuid()) @map("id")
+  username     String     @unique @map("username")
+  email        String?    @unique @map("email")
+  password     String     @map("password")
+  fullName     String     @map("full_name")
+  isActive     Boolean    @default(true) @map("is_active")
+  roles        UserRole[] @map("roles")
+  refreshToken String?    @map("refresh_token")
+  createdAt    DateTime   @default(now()) @map("created_at")
+  updatedAt    DateTime   @map("updated_at")
+
+  @@map("user")
 }
 

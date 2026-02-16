@@ -10,15 +10,15 @@ import {
   LoginUseCase,
   RegisterUseCase,
   RefreshTokenUseCase,
-} from '../../application/use-cases';
-import { JwtAuthGuard } from '../../../../shared/guards/jwt-auth.guard';
+} from '../../../application/use-cases';
+import { JwtAuthGuard } from '../../../../../shared/guards/jwt-auth.guard';
 import {
   LoginRequestDto,
   LoginResponseDto,
   RegisterRequestDto,
   RegisterResponseDto,
   RefreshTokenResponseDto,
-} from '../../interfaces/dtos/auth.dto';
+} from '../../dtos/auth.dto';
 
 /**
  * AuthController - Interfaces Layer
@@ -49,6 +49,7 @@ export class AuthController {
       refreshToken: result.refreshToken,
       user: {
         id: result.user.id,
+        username: result.user.username,
         email: result.user.email,
       },
     };
@@ -60,14 +61,20 @@ export class AuthController {
   ): Promise<RegisterResponseDto> {
     // Get domain entity from use case
     const user = await this.registerUseCase.execute(
-      credentials.email,
+      credentials.username,
       credentials.password,
+      credentials.fullName,
+      credentials.email,
     );
 
     // Map domain entity to response DTO
     return {
       id: user.id,
+      username: user.username,
       email: user.email,
+      fullName: user.fullName,
+      isActive: user.isActive,
+      roles: user.roles,
       createdAt: user.createdAt,
     };
   }

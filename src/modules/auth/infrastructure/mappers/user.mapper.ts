@@ -13,16 +13,24 @@ export class UserMapper {
    */
   static toDomain(prismaUser: {
     id: string;
-    email: string;
+    username: string;
+    email: string | null;
     password: string;
+    fullName: string;
+    isActive: boolean;
+    roles: string[];
     refreshToken: string | null;
     createdAt: Date;
     updatedAt: Date;
   }): User {
     return new User({
       id: prismaUser.id,
-      email: prismaUser.email,
+      username: prismaUser.username,
+      email: prismaUser.email ?? undefined,
       password: prismaUser.password,
+      fullName: prismaUser.fullName,
+      isActive: prismaUser.isActive,
+      roles: prismaUser.roles,
       refreshToken: prismaUser.refreshToken ?? undefined,
       createdAt: prismaUser.createdAt,
       updatedAt: prismaUser.updatedAt,
@@ -36,16 +44,24 @@ export class UserMapper {
    */
   static toPersistence(domainUser: User): {
     id: string;
-    email: string;
+    username: string;
+    email: string | null;
     password: string;
+    fullName: string;
+    isActive: boolean;
+    roles: string[];
     refreshToken: string | null;
     createdAt: Date;
     updatedAt: Date;
   } {
     return {
       id: domainUser.id,
-      email: domainUser.email,
+      username: domainUser.username,
+      email: domainUser.email ?? null,
       password: domainUser.password,
+      fullName: domainUser.fullName,
+      isActive: domainUser.isActive,
+      roles: domainUser.roles,
       refreshToken: domainUser.refreshToken ?? null,
       createdAt: domainUser.createdAt,
       updatedAt: domainUser.updatedAt,

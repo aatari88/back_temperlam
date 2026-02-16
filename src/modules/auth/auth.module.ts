@@ -7,7 +7,7 @@ import {
   RegisterUseCase,
   RefreshTokenUseCase,
 } from './application/use-cases';
-import { AuthController } from './interfaces/controllers/auth.controller';
+import { AuthController } from './interfaces/http/controllers/auth.controller';
 import { JwtStrategy } from './infrastructure/strategies/jwt.strategy';
 import { UserRepository } from './infrastructure/persistence/user.repository';
 import { USER_REPOSITORY } from './domain/repositories/user.repository.interface';

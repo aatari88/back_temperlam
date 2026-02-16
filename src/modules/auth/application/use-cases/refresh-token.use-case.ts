@@ -44,7 +44,7 @@ export class RefreshTokenUseCase {
     }
 
     // Step 3: Generate new tokens
-    const tokens = this.generateTokens(user.id, user.email);
+    const tokens = this.generateTokens(user.id, user.username);
 
     // Step 4: Persist new refresh token via repository
     const hashedRefreshToken = await bcrypt.hash(tokens.refreshToken, 10);
@@ -57,9 +57,9 @@ export class RefreshTokenUseCase {
     };
   }
 
-  private generateTokens(userId: string, email: string) {
+  private generateTokens(userId: string, username: string) {
     const accessToken = this.jwtService.sign(
-      { sub: userId, email },
+      { sub: userId, username },
       { expiresIn: '15m' },
     );
 
