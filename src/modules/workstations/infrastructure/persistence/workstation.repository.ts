@@ -32,7 +32,6 @@ export class WorkStationRepository implements IWorkStationRepository {
       orderBy: { createdAt: 'desc' },
     });
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return workStations.map((ws) => this.mapper.toDomain(ws));
   }
 
