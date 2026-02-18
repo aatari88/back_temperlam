@@ -6,6 +6,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { UsersModule } from './modules/users/users.module';
 import { AiModule } from './modules/ai/ai.module';
 import { WorkStationsModule } from './modules/workstations/workstations.module';
+import { RoutesModule } from './modules/routes/routes.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { WorkStationsModule } from './modules/workstations/workstations.module';
     UsersModule,
     AiModule,
     WorkStationsModule,
+    RoutesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
